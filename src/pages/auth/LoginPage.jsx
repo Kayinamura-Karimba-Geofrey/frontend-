@@ -31,7 +31,11 @@ export default function LoginPage() {
     try {
       let response;
       if (isRegister) {
-        response = await authApi.register(formData);
+        const payload = {
+          ...formData,
+          phoneNumber: formData.phoneNumber && formData.phoneNumber.trim() ? formData.phoneNumber : '+0000000000',
+        };
+        response = await authApi.register(payload);
       } else {
         response = await authApi.login({ email: formData.email, password: formData.password });
       }
