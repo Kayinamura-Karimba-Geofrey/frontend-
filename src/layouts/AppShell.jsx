@@ -26,6 +26,7 @@ import MessagingPage from '../pages/messages/MessagingPage';
 import AnnouncementsPage from '../pages/announcements/AnnouncementsPage';
 import AnalyticsPage from '../pages/analytics/AnalyticsPage';
 import ProfilePage from '../pages/profile/ProfilePage';
+import SubjectManagementPage from '../pages/subjects/SubjectManagementPage';
 
 export default function AppShell() {
   const { role } = useAuth();
@@ -67,6 +68,7 @@ export default function AppShell() {
     announcements: 'Official School Bulletins',
     analytics: 'Smart School Analytics',
     profile: 'User Profile & Account Settings',
+    subjects: 'Curriculum Subjects & Course Mapping',
   };
 
   const renderPage = () => {
@@ -83,6 +85,8 @@ export default function AppShell() {
         return <ParentManagementPage />;
       case 'classes':
         return <ClassManagementPage />;
+      case 'subjects':
+        return <SubjectManagementPage />;
       case 'attendance':
         return <AttendancePage />;
       case 'assignments':
