@@ -27,6 +27,7 @@ import AnnouncementsPage from '../pages/announcements/AnnouncementsPage';
 import AnalyticsPage from '../pages/analytics/AnalyticsPage';
 import ProfilePage from '../pages/profile/ProfilePage';
 import SubjectManagementPage from '../pages/subjects/SubjectManagementPage';
+import ForbiddenAccess from '../components/common/ForbiddenAccess';
 
 export default function AppShell() {
   const { role } = useAuth();
@@ -72,6 +73,22 @@ export default function AppShell() {
   };
 
   const renderPage = () => {
+    // Role-Based Page Authorization Definitions
+    const pagePermissions = {
+      users: ['ROLE_ADMIN'],
+      teachers: ['ROLE_ADMIN'],
+      students: ['ROLE_ADMIN', 'ROLE_TEACHER'],
+      parents: ['ROLE_ADMIN', 'ROLE_TEACHER'],
+      classes: ['ROLE_ADMIN', 'ROLE_TEACHER'],
+      subjects: ['ROLE_ADMIN', 'ROLE_TEACHER'],
+      fees: ['ROLE_ADMIN', 'ROLE_PARENT'],
+      analytics: ['ROLE_ADMIN', 'ROLE_TEACHER'],
+    };
+
+    if (pagePermissions[activeNav] && (!role || !pagePermissions[activeNav].includes(role))) {
+      return <ForbiddenAccess />;
+    }
+
     switch (activeNav) {
       case 'dashboard':
         return renderDashboardByRole();
